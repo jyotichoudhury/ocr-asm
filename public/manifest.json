@@ -1,0 +1,17 @@
+{
+  "name": "Assamese OCR",
+  "short_name": "ocr asm",
+  "theme_color": "#232528",
+  "background_color": "#161718",
+  "display": "standalone",
+  "Scope": "/",
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "images/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "splash_pages": null
+}

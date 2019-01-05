@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Galada" rel="stylesheet">
+    <link rel="icon" type = "image/vnd.microsoft.icon" href="img/icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="assamese, assamese ocr, আখৰ, লিখনি, বৰ্ণ, অসমীয়া">
+    <meta name="description" content="Assamese language OCR app">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:site_name" content="Assamese OCR"/>
+    <meta property="og:title" content="অসমীায়া ভাযা সম্বলিত ছবিক লিপিলৈ (unicode) ৰূপান্তৰ কৰা সঁজুলি।"/>
+    <meta property="og:image" content="img/ogimage.jpg">
+    <meta property="og:type" content="website"/>
+    <title>Assamese OCR</title>
+    <link rel="stylesheet" type="text/css" href="stylek.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<header>লিখনি </header>
+
+<body>
+    <h1>
+        অসমীয়া ভাযা থকা ছবি লিপিলৈ ৰূপান্তৰ কৰা OCR সঁজুলি। অসমীয়া ভাযা থকা যিকোনো ছবি (image file) আপলোড কৰি কনভাৰ্ট কৰিলেই ছবিখনত থকা কথাখিনি ইউনিকোডলৈ ৰূপান্তৰ হ'ব। 
+        সেই কথাখিনি তেতিয়া আপুনি কপি কৰিব পাৰিব।
+    </h1>
+    
+    <div>
+    <form action="/" method="POST" enctype="multipart/form-data" id="frmUpload">
+         
+           <input type="file" name="inputFile" accept="image/*" class="btns">
+           <!-- <input type="submit" value="Convert" class="btns"> -->
+           <button id="btnUpload">Convert</button>
+        
+    </form>
+    </div>
+
+    
+    <p id="rslt"><%= resFileNameText %></p>
+
+    <!--     <form id="dnldFile" method="GET" action="download">
+        <p id="dllink"><%=downloadlink%></p>
+        <button id="btndownload">Download</button>
+    </form> -->
+
+    <!-- <a id="dllink" href="/uploads/axcd2x1gnr9cxnzbi2e8/z5byg68f4zjv0s06u23x.txt" download >Download extract</a> -->
+
+</body>
+<script src="main.js"></script>
+</html>
