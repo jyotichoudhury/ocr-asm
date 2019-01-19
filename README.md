@@ -5,4 +5,3 @@ Extract the text from a a document image. Upload the image containing the docume
 
 after cloning the repo, run npm install and then node app.js
 
-todo: put a download button to download the text
