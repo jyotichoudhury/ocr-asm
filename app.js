@@ -4,6 +4,7 @@ var app                 = express();
 var upload              = require("express-fileupload");
 var cp                  = require("child_process");
 var fs                  = require("fs");
+var cookieParser        = require("cookie-parser");
 
 app.listen(3000,()=>{
 console.log("server started at 3000");
@@ -11,12 +12,16 @@ console.log("server started at 3000");
 
 app.set('view engine', 'ejs');
 
+app.use(cookieParser());
 app.use(upload({createParentPath: true}));
 //app.use(upload({ safeFileNames: true,createParentPath:true,limits: {fileSize: 20 * 1024 * 1024}}));
 app.use(express.static(__dirname+'/public'));
 app.get('/',(req, res)=>{
     //res.sendFile(__dirname+"/index.html");
+    //var testfilename = __dirname+'/uploads/'+'1itlasmwu2fr6polm28n/6op2vpjcr6xw21ndknvg.txt'
+    //res.cookie("fl", encodeURI(testfilename));
     res.render("index1",{resFileNameText: "",downloadlink:""});
+    
 })
 
 //var resFileName;
@@ -50,7 +55,7 @@ app.post('/',(req,res)=>{
         //var filepath = '/uploads/'+ makeid()+ '/';
         var resFileName = filepath + makeid();
 
-        var exectess = "tesseract "+filepath+filename+ " "+resFileName+ " -l asm"
+        //var exectess = "tesseract "+filepath+filename+ " "+resFileName+ " -l asm"
         
         file.mv(filepath+filename,function(err){
             if(err){
@@ -61,29 +66,7 @@ app.post('/',(req,res)=>{
 
                 console.log("starting tesseract");
 
-                var child = cp.spawn('tesseract',[filepath+filename,resFileName,'-l','asm+eng']);
-
-                /* exec(exectess,(err, out)=>{
-            
-
-                    if(err){
-                        console.log(err);
-                        res.send(err);
-                    }
-                    else{
-
-                        fs.readFile(resFileName+'.txt',(err,data)=>{
-                            if(err){
-                                res.send(err);
-                            }
-                            else{
-                                res.render('index1',{resFileNameText: data});
-                            }
-                        })
-                        //res.sendFile(resFileName+'.txt');
-                        //console.log(out.text)
-                    }
-                }) */
+                var child = cp.spawn('tesseract',[filepath+filename,resFileName,'-l','asm+eng']);       
 
                 child.on('exit',()=>{
                     fs.readFile(resFileName+'.txt',(err,data)=>{
@@ -91,6 +74,7 @@ app.post('/',(req,res)=>{
                             res.send(err);
                         }
                         else{
+                            res.cookie("fl",resFileName+'.txt');
                             res.render('index1',{resFileNameText: data, downloadlink:resFileName+'.txt'});
                             
                         }
@@ -103,8 +87,7 @@ app.post('/',(req,res)=>{
     }
 });
 
-/*  app.get('/download',(req,res)=>{
-     console.log(req.query.file);
-    res.download(req.query.file);
-     
-  })*/
+ app.get('/download',(req,res)=>{
+     //console.log(decodeURI(req.cookies.fl));
+    res.download(decodeURI(req.cookies.fl));
+  })

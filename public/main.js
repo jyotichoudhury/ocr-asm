@@ -23,18 +23,17 @@ document.addEventListener("DOMContentLoaded",()=>{
         //callback();
     });
 
-/* function updateDownload(){
+function updateDownload(){
 
     document.getElementById("btndownload").style.visibility = "visible";
 
-} */
+} 
 
-/* if(document.getElementById("rslt").innerHTML.length==0){
-    document.getElementById("dllink").style.display = 'none'
+if(document.getElementById("rslt").innerHTML.length==0){
+    document.getElementById("btndownload").style.display = 'none'
 }
 else{
-    document.getElementById("dllink").style.display = 'inline-block'
-} */
-
+    document.getElementById("btndownload").style.display = 'inline-block'
+}
 
 });
