@@ -5,6 +5,9 @@ var upload              = require("express-fileupload");
 var cp                  = require("child_process");
 var fs                  = require("fs");
 var cookieParser        = require("cookie-parser");
+const savePixels = require('save-pixels')
+const getPixels = require('get-pixels')
+const adaptiveThreshold = require('adaptive-threshold')
 
 app.listen(3000,()=>{
 console.log("server started at 3000");
@@ -54,36 +57,70 @@ app.post('/',(req,res)=>{
         var filepath = __dirname + '/uploads/'+ makeid()+ '/';
         //var filepath = '/uploads/'+ makeid()+ '/';
         var resFileName = filepath + makeid();
+        var thrsldFileName = filepath + makeid();
 
         //var exectess = "tesseract "+filepath+filename+ " "+resFileName+ " -l asm"
-        
-        file.mv(filepath+filename,function(err){
-            if(err){
-                console.log(err);
-                //res.send(err);
-            }
-            else{
 
-                console.log("starting tesseract");
+        //function thrsld (callback){
 
-                var child = cp.spawn('tesseract',[filepath+filename,resFileName,'-l','asm+eng']);       
+            //console.log("function call started");
 
-                child.on('exit',()=>{
-                    fs.readFile(resFileName+'.txt',(err,data)=>{
-                        if(err){
-                            res.send(err);
+            file.mv(filepath+filename,function(err){
+                if(err){
+                    console.log(err);
+                    //res.send(err);
+                }
+                else{
+
+                    console.log("this is where thresholding will be done");
+
+                    getPixels(filepath+filename, (err, pixels) => {
+                        if (err) {
+                          console.error(err)
+                          return
                         }
-                        else{
+                        let thresholded = adaptiveThreshold(pixels)
+                        savePixels(thresholded, 'png').pipe(fs.createWriteStream(thrsldFileName)).on('finish',ocr)
+                      })
+                }
+
+                //callback()
+                }
+            )
+        //}
+
+        
+        function ocr() {
+
+/*             file.mv(filepath+filename,function(err){
+                if(err){
+                    console.log(err);
+                    //res.send(err);
+                }
+                else{ */
+
+                    console.log("starting tesseract");
+
+                    var child = cp.spawn('tesseract',[thrsldFileName,resFileName,'-l','asm+eng']);       
+
+                    child.on('exit',()=>{
+                        fs.readFile(resFileName+'.txt',(err,data)=>{
+                            if(err){
+                            res.send(err);
+                            }
+                            else{
                             res.cookie("fl",resFileName+'.txt');
                             res.render('index1',{resFileNameText: data, downloadlink:resFileName+'.txt'});
                             
-                        }
+                            }
+                        });
                     });
-                });
             
-                //res.send(exectess);
-            }
-        })
+                    //res.send(exectess);
+                //}
+            
+        }
+        //thrsld(ocr);
     }
 });
 
