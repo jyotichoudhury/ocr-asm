@@ -34,6 +34,7 @@ if(document.getElementById("rslt").innerHTML.length==0){
 }
 else{
     document.getElementById("btndownload").style.display = 'inline-block'
+    document.getElementById("tips").style.display = 'none'
 }
 
 });
