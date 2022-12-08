@@ -13,7 +13,7 @@
     "adaptive-threshold": "^1.2.0",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "express-fileupload": "^1.1.9",
     "get-pixels": "^3.3.2",
     "save": "^2.4.0",
